@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block title %}AI Travel Assistant — TrackBuddy{% endblock %}
+
+{% block content %}
+<section style="padding: 40px 0 60px;">
+  <div class="container" style="max-width: 860px;">
+    <div style="margin-bottom: 24px;">
+      <span class="badge badge-terracotta" style="margin-bottom: 8px;">Grounded Travel AI</span>
+      <h1>TrackBuddy AI Travel Companion</h1>
+      <p>Ask in natural language. Powered by local Ollama & Gemma models when online, with deterministic offline fallback grounded in real Jaipur facts.</p>
+    </div>
+
+    <!-- Chat Console Card -->
+    <div class="card" style="display: flex; flex-direction: column; height: 560px; padding: 0; overflow: hidden;">
+      <!-- Chat Header -->
+      <div style="padding: 16px 20px; background: var(--bg-card-subtle); border-bottom: 1px solid var(--border-vintage); display: flex; justify-content: space-between; align-items: center;">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <div style="width: 10px; height: 10px; border-radius: 50%; background: var(--sage-accent);"></div>
+          <strong style="font-size: 0.95rem;">TrackBuddy Assistant</strong>
+        </div>
+        <span id="aiProviderBadge" class="badge badge-verified">TrackBuddy Fact Grounding</span>
+      </div>
+
+      <!-- Messages Stream -->
+      <div id="chatMessages" style="flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 16px; background: var(--bg-parchment-light);">
+        <div style="align-self: flex-start; max-width: 80%; background: #FFFFFF; border: 1px solid var(--border-vintage); padding: 14px 18px; border-radius: var(--radius-sm); font-size: 0.92rem; line-height: 1.6;">
+          👋 Namaste! I am your TrackBuddy heritage guide. How can I assist your trip to Jaipur? Ask me about:
+          <ul style="margin: 8px 0 0 18px; font-size: 0.88rem; color: var(--ink-secondary);">
+            <li>"Plan a two-day trip to Jaipur for four college students under ₹6,000."</li>
+            <li>"Which student discounts are available for monuments?"</li>
+            <li>"Suggest alternatives to a crowded attraction like Amber Fort."</li>
+            <li>"Rearrange my schedule if it rains in the afternoon."</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Quick Prompt Suggestion Pills -->
+      <div style="padding: 10px 16px; background: #FFFFFF; border-top: 1px solid var(--border-vintage); display: flex; gap: 8px; overflow-x: auto; white-space: nowrap;">
+        <button class="btn btn-secondary btn-sm quick-prompt-btn">Jaipur 4 students under ₹6,000</button>
+        <button class="btn btn-secondary btn-sm quick-prompt-btn">Student discounts for monuments</button>
+        <button class="btn btn-secondary btn-sm quick-prompt-btn">Alternatives to Amber Fort</button>
+        <button class="btn btn-secondary btn-sm quick-prompt-btn">What to do if it rains</button>
+      </div>
+
+      <!-- Chat Input Form -->
+      <form id="chatForm" style="padding: 14px 16px; background: var(--bg-card); border-top: 1px solid var(--border-vintage); display: flex; gap: 10px;">
+        <input type="text" id="chatInput" class="form-input" placeholder="Type your travel question..." style="flex: 1;" required>
+        <button type="submit" id="chatSendBtn" class="btn btn-primary" style="padding: 10px 22px;">Send &rarr;</button>
+      </form>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="{{ url_for('static', filename='js/assistant.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+
+{% block title %}Saved Trips & Shared Itineraries — TrackBuddy{% endblock %}
+
+{% block content %}
+<section style="padding: 40px 0 60px;">
+  <div class="container">
+    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 30px; flex-wrap: wrap; gap: 16px;">
+      <div>
+        <span class="badge badge-terracotta" style="margin-bottom: 8px;">Expedition Archive</span>
+        <h1>Saved Expeditions & Shared Links</h1>
+        <p>Access persistent trip records stored in SQLite database. Share links or reload past itineraries.</p>
+      </div>
+      <div>
+        <a href="/planner" class="btn btn-primary">+ Create New Itinerary</a>
+      </div>
+    </div>
+
+    <!-- Active In-Memory Trip Callout -->
+    <div id="activeTripCard" class="card" style="margin-bottom: 32px; background: var(--bg-card-subtle); border-left: 4px solid var(--terracotta-primary); display: none;">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+        <div>
+          <span class="badge badge-verified" style="margin-bottom: 4px;">Currently Active Session</span>
+          <h3 id="activeTripTitle" style="margin: 4px 0;">Jaipur College Expedition</h3>
+          <p id="activeTripMeta" style="font-size: 0.88rem; color: var(--ink-secondary);">4 Travelers • Oct 15-16 • Budget: ₹6,000</p>
+        </div>
+        <div style="display: flex; gap: 10px;">
+          <a href="/itinerary" class="btn btn-secondary btn-sm">Open Map & Timeline</a>
+          <button id="shareActiveTripBtn" class="btn btn-primary btn-sm">Copy Share Link</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Saved Trips Database Grid -->
+    <div id="savedTripsGrid" class="grid-3">
+      <!-- Dynamically filled saved trips -->
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', async () => {
+  // Check active trip in localStorage
+  const active = TrackBuddy.getActiveTrip();
+  if (active) {
+    document.getElementById('activeTripCard').style.display = 'block';
+    document.getElementById('activeTripTitle').textContent = active.title || 'Active Trip';
+    document.getElementById('activeTripMeta').textContent = 
+      `${active.travelers_count || 4} Travelers • Budget: ₹${(active.budget_total || 6000).toLocaleString('en-IN')}`;
+    
+    document.getElementById('shareActiveTripBtn').addEventListener('click', () => {
+      navigator.clipboard.writeText(window.location.origin + '/itinerary');
+      TrackBuddy.showToast("Itinerary link copied to clipboard!");
+    });
+  }
+
+  // Load trips from SQLite database
+  const grid = document.getElementById('savedTripsGrid');
+  grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--ink-muted);">Loading saved trips...</div>';
+
+  try {
+    const res = await fetch('/api/trips');
+    const data = await res.json();
+    renderSavedTrips(data.trips);
+  } catch(e) {
+    grid.innerHTML = `<div style="grid-column: 1/-1; color: var(--status-alert); text-align: center;">Error loading trips: ${e.message}</div>`;
+  }
+});
+
+function renderSavedTrips(trips) {
+  const grid = document.getElementById('savedTripsGrid');
+  grid.innerHTML = '';
+
+  if (!trips || trips.length === 0) {
+    grid.innerHTML = `
+      <div style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--ink-muted);">
+        No saved trips yet in the database. Head over to <a href="/planner">Plan Trip</a> to create and save your first expedition!
+      </div>
+    `;
+    return;
+  }
+
+  trips.forEach(t => {
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.innerHTML = `
+      <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px;">
+        <span class="badge badge-terracotta">${t.destination.toUpperCase()}</span>
+        <span style="font-size: 0.8rem; color: var(--ink-muted);">${t.start_date}</span>
+      </div>
+      <h3 style="margin-bottom: 8px; font-size: 1.25rem;">${t.title}</h3>
+      <p style="font-size: 0.88rem; color: var(--ink-secondary); margin-bottom: 14px;">
+        Travelers: <strong>${t.travelers_count}</strong> • Total Budget: <strong>₹${t.budget_total.toLocaleString('en-IN')}</strong>
+      </p>
+      <div style="border-top: 1px solid var(--border-vintage); padding-top: 12px; display: flex; justify-content: space-between; align-items: center;">
+        <span style="font-size: 0.8rem; color: var(--ink-muted);">ID: ${t.id}</span>
+        <button class="btn btn-secondary btn-sm" onclick="loadSavedTripIntoSession('${t.id}')">Load Trip &rarr;</button>
+      </div>
+    `;
+    grid.appendChild(card);
+  });
+}
+
+async function loadSavedTripIntoSession(tripId) {
+  TrackBuddy.showToast("Fetching trip details from database...");
+  try {
+    const res = await fetch(`/api/trips/${tripId}`);
+    const trip = await res.json();
+    TrackBuddy.setActiveTrip(trip);
+    TrackBuddy.showToast("Trip loaded! Redirecting to map...", 1500);
+    setTimeout(() => {
+      window.location.href = '/itinerary';
+    }, 800);
+  } catch(e) {
+    TrackBuddy.showToast("Failed to load: " + e.message);
+  }
+}
+</script>
+{% endblock %}

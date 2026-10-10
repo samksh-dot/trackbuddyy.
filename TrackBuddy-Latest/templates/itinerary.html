@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+
+{% block title %}Itinerary & Interactive Route Map — TrackBuddy{% endblock %}
+
+{% block content %}
+<section style="padding: 30px 0 60px;">
+  <div class="container">
+    <!-- Top Summary Banner -->
+    <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 16px; margin-bottom: 24px;">
+      <div>
+        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 6px;">
+          <h1 id="tripTitle">Jaipur Itinerary</h1>
+          <span id="studentBadge" class="badge badge-verified">Student Concession Active</span>
+        </div>
+        <p id="tripSubtitle" style="font-size: 0.95rem; color: var(--ink-secondary);">
+          Optimized visiting order • OpenStreetMap route calculation • Weather & crowd-aware timings
+        </p>
+      </div>
+      <div style="display: flex; gap: 12px;">
+        <button id="reoptimizeBtn" class="btn btn-secondary btn-sm">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 2v6h-6M3 12a9 9 0 0 1 15-6.7L21 8M3 22v-6h6M21 12a9 9 0 0 1-15 6.7L3 16"/></svg>
+          Re-optimize Stops
+        </button>
+        <button id="saveTripBtn" class="btn btn-primary btn-sm">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+          Save Expedition
+        </button>
+      </div>
+    </div>
+
+    <!-- Quick Stats Bar -->
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 28px;">
+      <div class="stat-box">
+        <div id="statTravelers" class="stat-value">4</div>
+        <div class="stat-label">Travelers</div>
+      </div>
+      <div class="stat-box">
+        <div id="statDays" class="stat-value">2 Days</div>
+        <div class="stat-label">Trip Duration</div>
+      </div>
+      <div class="stat-box">
+        <div id="statEstCost" class="stat-value">₹5,420</div>
+        <div class="stat-label">Total Est. Cost</div>
+      </div>
+      <div class="stat-box">
+        <div id="statPerPerson" class="stat-value">₹1,355</div>
+        <div class="stat-label">Per Person Share</div>
+      </div>
+      <div class="stat-box">
+        <div id="statWeather" class="stat-value" style="font-size: 1.4rem;">27°C Sunny</div>
+        <div class="stat-label">Weather Forecast</div>
+      </div>
+    </div>
+
+    <!-- Main Layout: Timeline Left, Interactive Map Right -->
+    <div class="grid-2">
+      <!-- Left Column: Day Itinerary Timeline -->
+      <div>
+        <!-- Day Selector Tabs -->
+        <div id="dayTabsContainer" style="display: flex; gap: 10px; margin-bottom: 20px; border-bottom: 1px solid var(--border-vintage); padding-bottom: 10px;">
+          <!-- Dynamically inserted day tabs -->
+        </div>
+
+        <!-- Weather Alert Callout for Selected Day -->
+        <div id="weatherAlertBox" class="alert-box alert-box-success" style="display: none;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+          <div id="weatherAlertText">Weather is pleasant for outdoor visits.</div>
+        </div>
+
+        <!-- Timeline Items List -->
+        <div id="timelineContainer" class="timeline">
+          <!-- Dynamically populated stops -->
+        </div>
+      </div>
+
+      <!-- Right Column: Interactive OpenStreetMap & Route Info -->
+      <div>
+        <div class="card" style="padding: 16px; margin-bottom: 20px;">
+          <div class="card-header" style="margin-bottom: 10px;">
+            <h3>Interactive Route Map</h3>
+            <span class="badge badge-verified" id="mapProviderBadge">OSRM + OpenStreetMap</span>
+          </div>
+          <div id="map" class="map-frame"></div>
+          <div style="margin-top: 12px; font-size: 0.85rem; color: var(--ink-muted); display: flex; justify-content: space-between;">
+            <span>Click any marker to inspect heritage details & crowd status</span>
+            <span id="routeDistanceDisplay">Calculating route geometry...</span>
+          </div>
+        </div>
+
+        <!-- Crowd Warning & Alternative Action Box -->
+        <div id="crowdActionBox" class="card" style="border-left: 4px solid var(--status-caution); display: none;">
+          <div style="display: flex; gap: 12px; align-items: flex-start;">
+            <div style="font-size: 1.5rem;">⚠️</div>
+            <div>
+              <h4 style="color: var(--status-caution); margin-bottom: 4px;">Peak Crowd Advisory</h4>
+              <p id="crowdNoticeText" style="font-size: 0.9rem; margin-bottom: 10px;"></p>
+              <button id="applyCrowdAlternativeBtn" class="btn btn-sage btn-sm">
+                Apply Crowd-Avoiding Recommendation
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="{{ url_for('static', filename='js/map.js') }}"></script>
+<script src="{{ url_for('static', filename='js/itinerary.js') }}"></script>
+{% endblock %}

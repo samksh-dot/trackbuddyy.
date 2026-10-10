@@ -1,0 +1,163 @@
+{% extends "base.html" %}
+
+{% block title %}Expense Calculator & Group Split — TrackBuddy{% endblock %}
+
+{% block content %}
+<section style="padding: 40px 0 60px;">
+  <div class="container">
+    <div style="margin-bottom: 30px;">
+      <span class="badge badge-terracotta" style="margin-bottom: 8px;">Budget Engine & Fair Split</span>
+      <h1>Trip Expense Engine & Group Balances</h1>
+      <p>Estimate complete costs before departure, record shared bills, and automatically resolve debt settlements between traveling friends.</p>
+    </div>
+
+    <!-- Top Budget Breakdown Cards -->
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 32px;">
+      <div class="stat-box">
+        <div id="dispTotalBudget" class="stat-value">₹6,000</div>
+        <div class="stat-label">Total Trip Budget</div>
+      </div>
+      <div class="stat-box">
+        <div id="dispEstSpent" class="stat-value">₹5,420</div>
+        <div class="stat-label">Calculated Est. Expense</div>
+      </div>
+      <div class="stat-box">
+        <div id="dispRemaining" class="stat-value" style="color: var(--sage-dark);">₹580</div>
+        <div class="stat-label">Remaining Surplus</div>
+      </div>
+      <div class="stat-box">
+        <div id="dispPerPerson" class="stat-value">₹1,355</div>
+        <div class="stat-label">Cost / Person (4 Friends)</div>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <!-- Left: Interactive Budget Calculator Controls -->
+      <div class="card">
+        <h3 style="margin-bottom: 16px;">Trip Budget Cost Parameters</h3>
+        <form id="budgetCalcForm">
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Travelers</label>
+              <input type="number" id="calcTravelers" class="form-input" value="4" min="1">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Trip Days</label>
+              <input type="number" id="calcDays" class="form-input" value="2" min="1">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Stay (₹/night/bed)</label>
+              <input type="number" id="calcHotel" class="form-input" value="650">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Beds/Rooms Count</label>
+              <input type="number" id="calcRooms" class="form-input" value="4">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Local Transit Est (₹)</label>
+              <input type="number" id="calcTransit" class="form-input" value="480">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Tickets/Person (₹)</label>
+              <input type="number" id="calcTickets" class="form-input" value="100">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Food/Person/Day (₹)</label>
+              <input type="number" id="calcFood" class="form-input" value="350">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Misc/Person (₹)</label>
+              <input type="number" id="calcMisc" class="form-input" value="100">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Student Concession Savings (₹)</label>
+            <input type="number" id="calcDiscount" class="form-input" value="1000">
+            <small style="color: var(--sage-dark);">Estimated ₹250 savings per student across 4 travelers</small>
+          </div>
+
+          <button type="button" id="recalcBudgetBtn" class="btn btn-primary" style="width: 100%; margin-top: 10px;">
+            Recalculate Budget Breakdown
+          </button>
+        </form>
+
+        <!-- Category Progress Bars -->
+        <div id="categoryBars" style="margin-top: 28px;">
+          <!-- Dynamically filled categories -->
+        </div>
+      </div>
+
+      <!-- Right: Record Group Expense & Settle Debts -->
+      <div>
+        <div class="card" style="margin-bottom: 24px;">
+          <h3 style="margin-bottom: 14px;">Record Shared Expense</h3>
+          <form id="recordExpenseForm">
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Description</label>
+                <input type="text" id="expDesc" class="form-input" placeholder="e.g. Rawat Kachori & Dal Baati" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Amount (₹)</label>
+                <input type="number" id="expAmount" class="form-input" placeholder="600" required>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Category</label>
+                <select id="expCategory" class="form-select">
+                  <option value="Food">Food & Meals</option>
+                  <option value="Local Transport">Local Transport (Auto/Cab)</option>
+                  <option value="Accommodation">Accommodation</option>
+                  <option value="Attraction Tickets">Monument Tickets</option>
+                  <option value="Miscellaneous">Miscellaneous</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Paid By</label>
+                <select id="expPaidBy" class="form-select">
+                  <option value="Aarav">Aarav</option>
+                  <option value="Neha">Neha</option>
+                  <option value="Kabir">Kabir</option>
+                  <option value="Riya">Riya</option>
+                </select>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-sage" style="width: 100%;">Add Shared Expense</button>
+          </form>
+        </div>
+
+        <!-- Settlements & Balances Card -->
+        <div class="card">
+          <h3 style="margin-bottom: 12px;">Fair Share & Debt Settlements</h3>
+          <p style="font-size: 0.88rem; color: var(--ink-secondary); margin-bottom: 16px;">
+            Optimal transfers to settle balances with the fewest payments:
+          </p>
+          <div id="settlementsContainer">
+            <!-- Dynamically populated settlements -->
+          </div>
+
+          <h4 style="margin: 20px 0 10px 0; font-size: 0.95rem;">Recorded Expenses Log</h4>
+          <div id="expenseList" style="max-height: 220px; overflow-y: auto;">
+            <!-- Expense log entries -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="{{ url_for('static', filename='js/expenses.js') }}"></script>
+{% endblock %}

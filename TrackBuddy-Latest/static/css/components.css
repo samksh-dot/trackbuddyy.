@@ -1,0 +1,229 @@
+/* ==========================================================================
+   TrackBuddy - Modular Component Styles
+   Form controls, itinerary timeline, map container, modal, notification toast
+   ========================================================================== */
+
+/* Form Elements */
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-label {
+  display: block;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--ink-primary);
+  margin-bottom: 8px;
+}
+
+.form-input, .form-select, .form-textarea {
+  width: 100%;
+  padding: 11px 14px;
+  background-color: var(--bg-parchment-light);
+  border: 1px solid var(--border-vintage);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  color: var(--ink-primary);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-input:focus, .form-select:focus, .form-textarea:focus {
+  outline: none;
+  border-color: var(--terracotta-primary);
+  box-shadow: 0 0 0 3px rgba(200, 90, 50, 0.15);
+  background-color: #FFFFFF;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+/* Checkbox and Radio Chips */
+.chips-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.chip-label {
+  cursor: pointer;
+  user-select: none;
+}
+
+.chip-label input {
+  display: none;
+}
+
+.chip-span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-vintage);
+  border-radius: 999px;
+  font-size: 0.88rem;
+  color: var(--ink-secondary);
+  transition: all 0.2s ease;
+}
+
+.chip-label input:checked + .chip-span {
+  background: var(--terracotta-primary);
+  color: #FFFFFF;
+  border-color: var(--terracotta-primary);
+  font-weight: 500;
+}
+
+/* Timeline Components */
+.timeline {
+  position: relative;
+  padding-left: 28px;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  top: 10px;
+  bottom: 10px;
+  left: 8px;
+  width: 2px;
+  background: var(--border-vintage-dark);
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 24px;
+}
+
+.timeline-dot {
+  position: absolute;
+  left: -28px;
+  top: 12px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--sandstone-gold);
+  border: 3px solid var(--bg-parchment-light);
+  box-shadow: 0 0 0 2px var(--terracotta-primary);
+}
+
+.timeline-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-vintage);
+  border-radius: var(--radius-md);
+  padding: 16px 20px;
+  box-shadow: var(--shadow-sm);
+}
+
+.timeline-transit-leg {
+  margin: 12px 0 12px -16px;
+  padding: 8px 16px;
+  background: var(--bg-card-subtle);
+  border-left: 3px dashed var(--terracotta-primary);
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--ink-secondary);
+}
+
+/* Map Canvas Container */
+.map-frame {
+  width: 100%;
+  height: 480px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-vintage);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  background: #EAE3D6;
+}
+
+/* Grid Layouts */
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 24px;
+}
+
+/* Alert Boxes */
+.alert-box {
+  padding: 14px 18px;
+  border-radius: var(--radius-sm);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: 0.92rem;
+}
+
+.alert-box-warning {
+  background-color: var(--sandstone-light);
+  border: 1px solid var(--sandstone-gold);
+  color: #7A531A;
+}
+
+.alert-box-success {
+  background-color: var(--sage-light);
+  border: 1px solid var(--sage-accent);
+  color: var(--sage-dark);
+}
+
+.alert-box-info {
+  background-color: var(--terracotta-soft);
+  border: 1px solid rgba(200, 90, 50, 0.3);
+  color: var(--terracotta-hover);
+}
+
+/* Stat Card */
+.stat-box {
+  background: var(--bg-card);
+  border: 1px solid var(--border-vintage);
+  border-radius: var(--radius-md);
+  padding: 18px;
+  text-align: center;
+}
+
+.stat-value {
+  font-family: var(--font-serif);
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--terracotta-primary);
+  margin-bottom: 4px;
+}
+
+.stat-label {
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--ink-muted);
+}
+
+/* Toast Notification */
+.toast-notice {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: var(--ink-primary);
+  color: #FFFFFF;
+  padding: 12px 20px;
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-lg);
+  font-size: 0.9rem;
+  z-index: 9999;
+  display: none;
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}

@@ -1,0 +1,431 @@
+/* ==========================================================================
+   TrackBuddy - Vintage Heritage Theme & Typography
+   Earthy Terracotta, Sandstone Ochre, Deep Forest Sage, Aged Paper Parchment
+   NO GENERIC AI BLUE. Warm, tactile, authentic, handcrafted expedition feel.
+   ========================================================================== */
+
+:root {
+  /* Vintage Color Palette */
+  --bg-parchment: #F9F6F0;
+  --bg-parchment-light: #FCFAF6;
+  --bg-card: #FFFFFF;
+  --bg-card-subtle: #F3EFE6;
+  
+  --terracotta-primary: #C85A32;
+  --terracotta-hover: #AF4A24;
+  --terracotta-soft: #F9EBE5;
+  
+  --sandstone-gold: #D4A359;
+  --sandstone-light: #F7EEDB;
+  --sandstone-dark: #A67833;
+  
+  --sage-accent: #4B6E59;
+  --sage-light: #EBF2ED;
+  --sage-dark: #375342;
+  
+  --ink-primary: #2C2623;
+  --ink-secondary: #5C524B;
+  --ink-muted: #8C8077;
+  
+  --border-vintage: #E2DACF;
+  --border-vintage-dark: #C9BDAF;
+  
+  --status-verified: #4B6E59;
+  --status-caution: #C8822A;
+  --status-alert: #B83C30;
+
+  /* Typography */
+  --font-serif: 'Playfair Display', Georgia, 'Times New Roman', serif;
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  
+  /* Shadows & Radius */
+  --shadow-sm: 0 2px 4px rgba(44, 38, 35, 0.05);
+  --shadow-md: 0 4px 12px rgba(44, 38, 35, 0.08);
+  --shadow-lg: 0 8px 24px rgba(44, 38, 35, 0.12);
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+
+  /* Smooth Theme Transition Duration */
+  --theme-transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* ==========================================================================
+   Destination-Specific Adaptive Vintage Themes
+   - Jaipur: Royal Terracotta & Warm Sandstone
+   - Himachal (Manali): Lush Alpine Forest Emerald, Pine Green & Crisp Mist
+   - Mumbai: Marine Coast Blue-Slate, Salty Aqua & Sunset Amber
+   - Goa: Golden Sand Shoreline, Tropical Palm Teal & Warm Coral
+   - Varanasi: Sacred Ghat Ochre, Saffron Temple Glow & Deep Brass
+   ========================================================================== */
+
+/* 1. Himachal Theme (Manali) */
+body.theme-manali {
+  --bg-parchment: #F2F7F4;
+  --bg-parchment-light: #F8FAF9;
+  --bg-card: #FFFFFF;
+  --bg-card-subtle: #E8F2EC;
+  --terracotta-primary: #2D6A4F;      /* Deep Pine Green */
+  --terracotta-hover: #1B4332;        /* Dark Alpine Spruce */
+  --terracotta-soft: #D8F3DC;         /* Fresh Pine Mist */
+  --sandstone-gold: #52B788;          /* Forest Foliage */
+  --sandstone-light: #E8F5E9;
+  --border-vintage: #CFE1D6;
+  --border-vintage-dark: #B0CBB9;
+  --sage-accent: #2D6A4F;
+  --sage-dark: #1B4332;
+}
+
+/* 2. Mumbai Coastal Theme */
+body.theme-mumbai {
+  --bg-parchment: #F2F6F9;
+  --bg-parchment-light: #F7FAFC;
+  --bg-card: #FFFFFF;
+  --bg-card-subtle: #E4ECF2;
+  --terracotta-primary: #2B6777;      /* Marine Slate / Deep Arabian Sea */
+  --terracotta-hover: #1D4B57;        /* Coastal Navy */
+  --terracotta-soft: #E2F0F3;         /* Sea Foam Mist */
+  --sandstone-gold: #D8973C;          /* Marine Drive Sunset Amber */
+  --sandstone-light: #FCEFD9;
+  --border-vintage: #CCDDE6;
+  --border-vintage-dark: #A9C2D1;
+  --sage-accent: #2B6777;
+  --sage-dark: #1D4B57;
+}
+
+/* 3. Goa Tropical Beach Theme */
+body.theme-goa {
+  --bg-parchment: #FAF7F0;
+  --bg-parchment-light: #FCFAF5;
+  --bg-card: #FFFFFF;
+  --bg-card-subtle: #F5EFE1;
+  --terracotta-primary: #D36135;      /* Warm Tropical Coral */
+  --terracotta-hover: #BA4E25;        /* Sunset Orange */
+  --terracotta-soft: #FCEBE4;         /* Soft Peach */
+  --sandstone-gold: #3FA796;          /* Tropical Palm Teal */
+  --sandstone-light: #E3F6F3;
+  --border-vintage: #E6DCBF;
+  --border-vintage-dark: #CFC3A0;
+  --sage-accent: #3FA796;
+  --sage-dark: #2A7266;
+}
+
+/* 4. Varanasi Sacred Heritage Theme */
+body.theme-varanasi {
+  --bg-parchment: #FAF5EE;
+  --bg-parchment-light: #FCFAF6;
+  --bg-card: #FFFFFF;
+  --bg-card-subtle: #F3EAE0;
+  --terracotta-primary: #B85D19;      /* Sacred Saffron Brass */
+  --terracotta-hover: #9A4A10;        /* Deep Temple Ochre */
+  --terracotta-soft: #FBEBDD;         /* Marigold Aura */
+  --sandstone-gold: #C68B2B;          /* Temple Gold */
+  --sandstone-light: #FAF0D8;
+  --border-vintage: #E4D5C1;
+  --border-vintage-dark: #C9B498;
+  --sage-accent: #6E5D4F;
+  --sage-dark: #4B3E33;
+}
+
+/* Global Transitions for smooth color switches */
+body, header, .card, .stat-box, .btn, .timeline-dot, .form-input, .form-select {
+  transition: var(--theme-transition);
+}
+
+/* Destination Pill Selector */
+.destination-pill-bar {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding: 8px 4px 16px;
+  margin-bottom: 24px;
+}
+
+.destination-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  border-radius: 999px;
+  background: var(--bg-card);
+  border: 1.5px solid var(--border-vintage);
+  color: var(--ink-primary);
+  font-weight: 600;
+  font-size: 0.92rem;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+  white-space: nowrap;
+}
+
+.destination-pill:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--terracotta-primary);
+}
+
+.destination-pill.active {
+  background: var(--terracotta-primary);
+  color: #FFFFFF;
+  border-color: var(--terracotta-primary);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Animated Illustration Card Effect */
+.card-illustrated {
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.3s ease;
+}
+
+.card-illustrated:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.card-illustrated img {
+  transition: transform 0.5s ease;
+}
+
+.card-illustrated:hover img {
+  transform: scale(1.04);
+}
+
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--bg-parchment);
+  color: var(--ink-primary);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Headings */
+h1, h2, h3, h4, .serif-title {
+  font-family: var(--font-serif);
+  color: var(--ink-primary);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+h1 { font-size: 2.5rem; line-height: 1.2; }
+h2 { font-size: 1.85rem; line-height: 1.3; }
+h3 { font-size: 1.35rem; line-height: 1.4; }
+h4 { font-size: 1.1rem; }
+
+p {
+  color: var(--ink-secondary);
+  font-size: 0.98rem;
+}
+
+a {
+  color: var(--terracotta-primary);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: var(--terracotta-hover);
+}
+
+/* Layout Container */
+.container {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* Header & Nav */
+.header-nav {
+  background: var(--bg-parchment-light);
+  border-bottom: 1px solid var(--border-vintage);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: var(--shadow-sm);
+}
+
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 72px;
+}
+
+.brand-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-serif);
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--terracotta-primary);
+}
+
+.brand-logo svg {
+  width: 28px;
+  height: 28px;
+  fill: var(--terracotta-primary);
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  list-style: none;
+}
+
+.nav-links a {
+  font-size: 0.92rem;
+  font-weight: 500;
+  color: var(--ink-secondary);
+  padding: 6px 10px;
+  border-radius: var(--radius-sm);
+  transition: all 0.2s ease;
+}
+
+.nav-links a:hover, .nav-links a.active {
+  color: var(--terracotta-primary);
+  background-color: var(--terracotta-soft);
+}
+
+/* Primary Vintage Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  font-weight: 600;
+  padding: 10px 20px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all 0.2s ease;
+  text-decoration: none;
+}
+
+.btn-primary {
+  background-color: var(--terracotta-primary);
+  color: #FFFFFF;
+}
+
+.btn-primary:hover {
+  background-color: var(--terracotta-hover);
+  color: #FFFFFF;
+  box-shadow: 0 4px 10px rgba(200, 90, 50, 0.25);
+}
+
+.btn-secondary {
+  background-color: var(--bg-card);
+  color: var(--ink-primary);
+  border-color: var(--border-vintage-dark);
+}
+
+.btn-secondary:hover {
+  background-color: var(--bg-card-subtle);
+  border-color: var(--terracotta-primary);
+}
+
+.btn-sage {
+  background-color: var(--sage-accent);
+  color: #FFFFFF;
+}
+
+.btn-sage:hover {
+  background-color: var(--sage-dark);
+  color: #FFFFFF;
+}
+
+.btn-sm {
+  padding: 6px 12px;
+  font-size: 0.85rem;
+}
+
+/* Badges & Pills */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.badge-verified {
+  background-color: var(--sage-light);
+  color: var(--sage-dark);
+  border: 1px solid rgba(75, 110, 89, 0.2);
+}
+
+.badge-caution {
+  background-color: var(--sandstone-light);
+  color: var(--sandstone-dark);
+  border: 1px solid rgba(166, 120, 51, 0.2);
+}
+
+.badge-alert {
+  background-color: #FDF0ED;
+  color: var(--status-alert);
+  border: 1px solid rgba(184, 60, 48, 0.2);
+}
+
+.badge-terracotta {
+  background-color: var(--terracotta-soft);
+  color: var(--terracotta-primary);
+}
+
+/* Card Styling */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-vintage);
+  border-radius: var(--radius-md);
+  padding: 24px;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  box-shadow: var(--shadow-md);
+}
+
+.card-header {
+  margin-bottom: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+/* Footer */
+.vintage-footer {
+  margin-top: 60px;
+  background-color: var(--bg-card-subtle);
+  border-top: 1px solid var(--border-vintage);
+  padding: 40px 0 24px;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 32px;
+  margin-bottom: 30px;
+}
+
+.footer-bottom {
+  border-top: 1px solid var(--border-vintage);
+  padding-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  color: var(--ink-muted);
+}

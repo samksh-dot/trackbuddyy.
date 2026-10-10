@@ -1,0 +1,142 @@
+{% extends "base.html" %}
+
+{% block title %}Weather Dashboard — TrackBuddy{% endblock %}
+
+{% block content %}
+<section style="padding: 40px 0 60px;">
+  <div class="container" style="max-width: 960px;">
+    <div style="margin-bottom: 24px;">
+      <span class="badge badge-terracotta" style="margin-bottom: 8px;">Meteorological Guidance</span>
+      <h1>Destination Weather & Planning Impact</h1>
+      <p>Live forecasts from Open-Meteo API. Automated scheduling recommendations for open-air forts, mountain trails, beaches, and indoor museums.</p>
+    </div>
+
+    <!-- Weather Destination Hub Selector -->
+    <div style="margin-bottom: 24px;">
+      <label class="form-label">Select Destination for Live Weather:</label>
+      <div class="destination-pill-bar" style="margin-bottom: 0;">
+        <button class="destination-pill active" onclick="loadWeatherForDest('jaipur')">🏰 Jaipur</button>
+        <button class="destination-pill" onclick="loadWeatherForDest('manali')">🌲 Manali (Himachal)</button>
+        <button class="destination-pill" onclick="loadWeatherForDest('mumbai')">🌊 Mumbai</button>
+        <button class="destination-pill" onclick="loadWeatherForDest('goa')">🏖️ Goa</button>
+        <button class="destination-pill" onclick="loadWeatherForDest('varanasi')">🪔 Varanasi</button>
+      </div>
+    </div>
+
+    <!-- Current Weather Card -->
+    <div class="card card-illustrated" style="margin-bottom: 32px; background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-card-subtle) 100%); border-left: 6px solid var(--terracotta-primary);">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;">
+        <div>
+          <span class="badge badge-verified" id="weatherSourceBadge">Open-Meteo Live API</span>
+          <h2 style="font-size: 2.2rem; margin: 8px 0 4px;" id="currentTemp">27°C</h2>
+          <div style="font-size: 1.15rem; font-weight: 600; color: var(--ink-secondary);" id="currentCondition">Clear Sky / Sunny</div>
+          <div style="font-size: 0.88rem; color: var(--ink-muted); margin-top: 4px;" id="currentWind">Wind: 11 km/h • Humidity: Moderate</div>
+        </div>
+        <div style="max-width: 440px;">
+          <h4 style="margin-bottom: 6px; color: var(--terracotta-hover);">Itinerary Impact Advisory</h4>
+          <p id="weatherRec" style="font-size: 0.95rem; line-height: 1.5; color: var(--ink-primary);">
+            Ideal outdoor weather for sightseeing. No precipitation alerts active.
+          </p>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- Multi-Day Forecast Grid -->
+    <h3 style="margin-bottom: 18px;">Upcoming Daily Forecast</h3>
+    <div id="forecastGrid" class="grid-3" style="margin-bottom: 36px;">
+      <!-- Dynamically filled day cards -->
+    </div>
+
+    <!-- Weather Responsive Rules -->
+    <div class="card">
+      <h3 style="margin-bottom: 14px;">How TrackBuddy Adapts to Bad Weather</h3>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px;">
+        <div style="padding: 14px; background: var(--bg-card-subtle); border-radius: var(--radius-sm);">
+          <strong style="color: var(--terracotta-primary);">🌧️ Rainy Conditions:</strong>
+          <p style="font-size: 0.88rem; margin-top: 4px;">Automatically shifts itinerary towards indoor treasures: <strong>Albert Hall Museum</strong>, City Palace state museum, and covered jewelry bazaars.</p>
+        </div>
+        <div style="padding: 14px; background: var(--bg-card-subtle); border-radius: var(--radius-sm);">
+          <strong style="color: var(--sandstone-dark);">☀️ Extreme Midday Heat:</strong>
+          <p style="font-size: 0.88rem; margin-top: 4px;">Schedules strenuous uphill fort exploration (Amber & Jaigarh) in early morning before 10:30 AM, reserving afternoons for air-conditioned transit or haveli dining.</p>
+        </div>
+        <div style="padding: 14px; background: var(--bg-card-subtle); border-radius: var(--radius-sm);">
+          <strong style="color: var(--sage-dark);">🌅 Sunset Viewing:</strong>
+          <p style="font-size: 0.88rem; margin-top: 4px;">Calculates twilight timings to place you at <strong>Nahargarh Fort Padao terrace</strong> right as the sun drops behind the Aravalli hills.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+const weatherCoords = {
+  'jaipur': { lat: 26.9124, lon: 75.7873, name: 'Jaipur' },
+  'manali': { lat: 32.2432, lon: 77.1892, name: 'Manali (Himachal)' },
+  'mumbai': { lat: 18.9220, lon: 72.8347, name: 'Mumbai Coast' },
+  'goa': { lat: 15.4989, lon: 73.8278, name: 'Goa Coast' },
+  'varanasi': { lat: 25.3176, lon: 82.9739, name: 'Varanasi' }
+};
+
+async function loadWeatherForDest(destId) {
+  TrackBuddy.applyDestinationTheme(destId);
+  document.querySelectorAll('.destination-pill').forEach(btn => {
+    btn.classList.remove('active');
+  });
+  if (event && event.currentTarget) {
+    event.currentTarget.classList.add('active');
+  }
+
+  const loc = weatherCoords[destId] || weatherCoords['jaipur'];
+  const grid = document.getElementById('forecastGrid');
+  grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 24px;">Loading meteorological forecast...</div>';
+
+  try {
+    const res = await fetch(`/api/weather?lat=${loc.lat}&lon=${loc.lon}`);
+    const data = await res.json();
+    
+    // Render current
+    if (data.current) {
+      document.getElementById('currentTemp').textContent = `${Math.round(data.current.temperature)}°C`;
+      document.getElementById('currentCondition').textContent = data.current.condition;
+      document.getElementById('currentWind').textContent = `Location: ${loc.name} • Wind: ${data.current.windspeed} km/h`;
+      document.getElementById('weatherRec').textContent = data.current.recommendation;
+    }
+    if (data.source) {
+      document.getElementById('weatherSourceBadge').textContent = data.source;
+    }
+
+    // Render forecast
+    grid.innerHTML = '';
+    (data.forecast_days || []).slice(0, 3).forEach((day, idx) => {
+      const card = document.createElement('div');
+      card.className = 'card card-illustrated';
+      card.innerHTML = `
+        <div style="font-size: 0.85rem; font-weight: 700; color: var(--terracotta-primary); margin-bottom: 6px;">
+          Day ${idx + 1} (${day.date})
+        </div>
+        <h4 style="margin-bottom: 4px;">${day.condition}</h4>
+        <div style="font-size: 1.3rem; font-weight: 700; margin-bottom: 8px;">
+          ${Math.round(day.temp_max)}°C <span style="font-size: 0.95rem; color: var(--ink-muted); font-weight: 400;">/ ${Math.round(day.temp_min)}°C</span>
+        </div>
+        <div style="font-size: 0.82rem; color: var(--ink-muted); margin-bottom: 10px;">
+          Rain Probability: ${day.rain_prob}%
+        </div>
+        <p style="font-size: 0.85rem; color: var(--ink-secondary); line-height: 1.4;">${day.recommendation}</p>
+      `;
+      grid.appendChild(card);
+    });
+  } catch(e) {
+    grid.innerHTML = `<div style="grid-column: 1/-1; color: var(--status-alert);">Unable to load weather: ${e.message}</div>`;
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const activeDest = TrackBuddy.getActiveDestination() || 'jaipur';
+  loadWeatherForDest(activeDest);
+});
+</script>
+
+{% endblock %}

@@ -1,0 +1,258 @@
+{% extends "base.html" %}
+
+{% block title %}TrackBuddy — Explore More. Spend Smarter. Travel Together.{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section style="background: linear-gradient(180deg, var(--bg-parchment-light) 0%, var(--bg-parchment) 100%); padding: 60px 0 50px; border-bottom: 1px solid var(--border-vintage);">
+  <div class="container">
+    <div class="grid-2" style="align-items: center; gap: 48px;">
+      <div>
+        <div style="display: flex; gap: 8px; margin-bottom: 16px;">
+          <span class="badge badge-terracotta">Vintage Heritage Edition</span>
+          <span class="badge badge-verified">College & Group Friendly</span>
+        </div>
+        <h1 style="margin-bottom: 20px;">Explore More. Spend Smarter. Travel Together.</h1>
+        <p style="font-size: 1.12rem; margin-bottom: 30px; line-height: 1.7;">
+          Unplanned itineraries, missed student concessions, crowded monuments, and unpredictable cab fares ruin great adventures. TrackBuddy generates optimized multi-stop heritage itineraries, compares rickshaws, cabs and metro lines, and splits group expenses with total transparency.
+        </p>
+        <div style="display: flex; gap: 16px; flex-wrap: wrap;">
+          <a href="/planner" class="btn btn-primary" style="padding: 14px 28px; font-size: 1.05rem;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            Plan My Trip Now
+          </a>
+          <button id="quickDemoBtn" class="btn btn-secondary" style="padding: 14px 24px;">
+            Load Jaipur Hackathon Demo (4 Students • ₹6,000)
+          </button>
+        </div>
+      </div>
+      <div>
+        <div style="position: relative; border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-lg); border: 2px solid var(--border-vintage-dark);">
+          <img src="https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=1000&q=80" alt="Jaipur Pink City Palace" style="width: 100%; height: 380px; object-fit: cover; display: block;">
+          <div style="position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(180deg, rgba(44,38,35,0) 0%, rgba(44,38,35,0.85) 100%); color: #FFFFFF; padding: 24px;">
+            <h3 style="color: #FFFFFF; margin-bottom: 4px;">Jaipur, Rajasthan</h3>
+            <p style="color: #E2DACF; font-size: 0.9rem;">Hawa Mahal • Amber Fort • City Palace • Nahargarh Sunset</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<!-- Destination Showcase with Theme Changing & Illustrations -->
+<section style="padding: 40px 0 20px;">
+  <div class="container">
+    <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 24px; flex-wrap: wrap; gap: 12px;">
+      <div>
+        <span class="badge badge-terracotta" style="margin-bottom: 8px;">Explore India</span>
+        <h2>Choose Your Destination & Aesthetic</h2>
+        <p>Switch between vibrant heritage hubs. Watch the application's aesthetic adapt — pine forests for Himachal, marine blue for Mumbai, golden beaches for Goa!</p>
+      </div>
+      <div>
+        <span style="font-size: 0.85rem; color: var(--ink-muted);">Click any card to preview theme & plan</span>
+      </div>
+    </div>
+
+    <!-- Destination Carousel Cards with Illustrations & Dynamic Theme Trigger -->
+    <div class="destination-pill-bar">
+      <button class="destination-pill active" onclick="switchHomeDestination('jaipur')">
+        🏰 Jaipur (Royal Terracotta)
+      </button>
+      <button class="destination-pill" onclick="switchHomeDestination('manali')">
+        🌲 Manali, Himachal (Alpine Greenery)
+      </button>
+      <button class="destination-pill" onclick="switchHomeDestination('mumbai')">
+        🌊 Mumbai (Marine Coast & Skyline)
+      </button>
+      <button class="destination-pill" onclick="switchHomeDestination('goa')">
+        🏖️ Goa (Tropical Beach & Palms)
+      </button>
+      <button class="destination-pill" onclick="switchHomeDestination('varanasi')">
+        🪔 Varanasi (Sacred Ghats & Saffron)
+      </button>
+    </div>
+
+    <!-- Dynamic Destination Cards Grid -->
+    <div class="grid-3" style="margin-bottom: 40px;" id="destinationCardsGrid">
+      <!-- 1. Jaipur -->
+      <div class="card card-illustrated" style="padding: 0; cursor: pointer;" onclick="quickSelectDestination('jaipur')">
+        <div style="height: 180px; overflow: hidden; position: relative;">
+          <img src="https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=700&q=80" alt="Jaipur" style="width: 100%; height: 100%; object-fit: cover;">
+          <span class="badge badge-terracotta" style="position: absolute; top: 12px; right: 12px;">Rajasthan</span>
+        </div>
+        <div style="padding: 20px;">
+          <h3 style="margin-bottom: 6px;">🏰 Jaipur, Rajasthan</h3>
+          <p style="font-size: 0.88rem; margin-bottom: 12px;">Hawa Mahal • Amber Fort • City Palace • Nahargarh Sunset</p>
+          <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border-vintage); padding-top: 12px;">
+            <span style="font-size: 0.82rem; color: var(--ink-muted);">Best: Oct - Mar</span>
+            <span class="btn btn-primary btn-sm">Plan Jaipur &rarr;</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. Himachal (Manali) -->
+      <div class="card card-illustrated" style="padding: 0; cursor: pointer;" onclick="quickSelectDestination('manali')">
+        <div style="height: 180px; overflow: hidden; position: relative;">
+          <img src="https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?auto=format&fit=crop&w=700&q=80" alt="Manali Himachal" style="width: 100%; height: 100%; object-fit: cover;">
+          <span class="badge badge-verified" style="position: absolute; top: 12px; right: 12px;">Himachal Pradesh</span>
+        </div>
+        <div style="padding: 20px;">
+          <h3 style="margin-bottom: 6px;">🌲 Manali, Himachal</h3>
+          <p style="font-size: 0.88rem; margin-bottom: 12px;">Solang Valley • Hadimba Temple • Jogini Falls • Old Manali</p>
+          <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border-vintage); padding-top: 12px;">
+            <span style="font-size: 0.82rem; color: var(--ink-muted);">Best: Mar - Jun & Snow</span>
+            <span class="btn btn-sage btn-sm">Plan Himachal &rarr;</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. Mumbai -->
+      <div class="card card-illustrated" style="padding: 0; cursor: pointer;" onclick="quickSelectDestination('mumbai')">
+        <div style="height: 180px; overflow: hidden; position: relative;">
+          <img src="https://images.unsplash.com/photo-1570168007204-dfb528c6958f?auto=format&fit=crop&w=700&q=80" alt="Mumbai Coast" style="width: 100%; height: 100%; object-fit: cover;">
+          <span class="badge badge-caution" style="position: absolute; top: 12px; right: 12px;">Maharashtra</span>
+        </div>
+        <div style="padding: 20px;">
+          <h3 style="margin-bottom: 6px;">🌊 Mumbai Coast</h3>
+          <p style="font-size: 0.88rem; margin-bottom: 12px;">Gateway of India • Marine Drive • Colaba • Bandra Bandstand</p>
+          <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border-vintage); padding-top: 12px;">
+            <span style="font-size: 0.82rem; color: var(--ink-muted);">Best: Nov - Feb</span>
+            <span class="btn btn-secondary btn-sm">Plan Mumbai &rarr;</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- 6 Core Questions Answered -->
+<section style="padding: 60px 0;">
+  <div class="container">
+    <div style="text-align: center; max-width: 680px; margin: 0 auto 48px;">
+      <h2>Six Questions Every Traveler Asks</h2>
+      <p style="font-size: 1.05rem;">TrackBuddy combines fragmented transit apps, hotel listings, weather reports, and split calculators into one cohesive vintage explorer desk.</p>
+    </div>
+
+    <div class="grid-3">
+      <div class="card">
+        <span class="badge badge-terracotta" style="margin-bottom: 12px;">01. Where to go?</span>
+        <h3>Curated Heritage Discovery</h3>
+        <p>Curated architectural monuments, museums, royal havelis, and bustling bazaars with opening hours and entrance ticket rates.</p>
+      </div>
+
+      <div class="card">
+        <span class="badge badge-terracotta" style="margin-bottom: 12px;">02. Best visit order?</span>
+        <h3>Route & Stop Optimization</h3>
+        <p>Nearest-neighbor geometric sequencing avoids crisscrossing city traffic, cutting travel fatigue and keeping group energy high.</p>
+      </div>
+
+      <div class="card">
+        <span class="badge badge-terracotta" style="margin-bottom: 12px;">03. How to travel?</span>
+        <h3>Transport Comparison</h3>
+        <p>Transparent fare tables comparing Walking, Auto-Rickshaw, App Cabs (Uber/Ola), Metro, and Local Buses for your exact group size.</p>
+      </div>
+
+      <div class="card">
+        <span class="badge badge-terracotta" style="margin-bottom: 12px;">04. What will it cost?</span>
+        <h3>Deterministic Expense Engine</h3>
+        <p>Exact arithmetic for stay, food, transit, and monument fees with verified student concessions (up to 75% off for university ID holders).</p>
+      </div>
+
+      <div class="card">
+        <span class="badge badge-terracotta" style="margin-bottom: 12px;">05. Where to stay?</span>
+        <h3>Vetted Hostels & Stays</h3>
+        <p>Filter by rating, student discounts, and distance to attractions. Includes honest occupancy availability indicators.</p>
+      </div>
+
+      <div class="card">
+        <span class="badge badge-terracotta" style="margin-bottom: 12px;">06. What if plans change?</span>
+        <h3>Disruption Replanning</h3>
+        <p>Crowd-aware reordering and weather alerts adapt your daily schedule if rain strikes or a fort experiences peak morning congestion.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Hackathon Scenario Showcase Callout -->
+<section style="background-color: var(--bg-card-subtle); padding: 50px 0; border-top: 1px solid var(--border-vintage); border-bottom: 1px solid var(--border-vintage);">
+  <div class="container">
+    <div style="background: var(--bg-card); border: 2px solid var(--sandstone-gold); border-radius: var(--radius-lg); padding: 36px; box-shadow: var(--shadow-md);">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 20px;">
+        <div style="max-width: 720px;">
+          <span class="badge badge-caution" style="margin-bottom: 10px;">Official Demo Scenario</span>
+          <h2 style="margin-bottom: 10px;">Jaipur Weekend Expedition: 4 Students, ₹6,000 Total</h2>
+          <p style="margin-bottom: 16px;">
+            Aarav, Neha, Kabir, and Riya want a 2-day budget adventure in the Pink City. TrackBuddy secures dorm beds at Zostel (₹650/bed), saves ₹1,000 on Rajasthan monument student tickets, optimizes travel between Amber Fort and Nahargarh sunset, and balances dinner expenses.
+          </p>
+          <div style="display: flex; gap: 24px; font-size: 0.92rem; color: var(--ink-secondary);">
+            <span><strong>Target Budget:</strong> ₹6,000</span>
+            <span><strong>Est. Expenditure:</strong> ~₹5,420</span>
+            <span style="color: var(--sage-dark); font-weight: 600;"><strong>Est. Savings:</strong> ~₹580 surplus</span>
+          </div>
+        </div>
+        <div>
+          <button id="loadScenarioBtn" class="btn btn-sage" style="padding: 12px 24px; font-size: 1rem;">
+            Run Live Demo Scenario
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+function switchHomeDestination(destId) {
+  TrackBuddy.applyDestinationTheme(destId);
+  document.querySelectorAll('.destination-pill').forEach(pill => {
+    pill.classList.remove('active');
+  });
+  if (event && event.currentTarget) {
+    event.currentTarget.classList.add('active');
+  }
+  TrackBuddy.showToast(`Switched theme to ${destId.toUpperCase()}!`);
+}
+
+function quickSelectDestination(destId) {
+  TrackBuddy.applyDestinationTheme(destId);
+  window.location.href = `/planner?destination=${destId}`;
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const runDemoScenario = async () => {
+    TrackBuddy.showToast("Generating Jaipur 2-day Student Itinerary...");
+    try {
+      const res = await fetch('/api/itinerary/generate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          destination_id: 'jaipur',
+          start_date: '2026-10-15',
+          end_date: '2026-10-16',
+          travelers_count: 4,
+          budget_total: 6000,
+          preference: 'balanced',
+          is_student: true,
+          interests: ['historical', 'shopping', 'nature']
+        })
+      });
+      const data = await res.json();
+      data.budget_total = 6000;
+      data.title = "Jaipur 2-Day College Expedition";
+      TrackBuddy.setActiveTrip(data);
+      TrackBuddy.showToast("Itinerary created! Redirecting to map...", 2000);
+      setTimeout(() => {
+        window.location.href = '/itinerary';
+      }, 1000);
+    } catch(err) {
+      TrackBuddy.showToast("Failed to initialize scenario: " + err.message);
+    }
+  };
+
+  const btn1 = document.getElementById('quickDemoBtn');
+  const btn2 = document.getElementById('loadScenarioBtn');
+  if (btn1) btn1.addEventListener('click', runDemoScenario);
+  if (btn2) btn2.addEventListener('click', runDemoScenario);
+});
+</script>
+{% endblock %}

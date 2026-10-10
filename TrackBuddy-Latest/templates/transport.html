@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block title %}Transport Comparison Engine — TrackBuddy{% endblock %}
+
+{% block content %}
+<section style="padding: 40px 0 60px;">
+  <div class="container">
+    <div style="margin-bottom: 30px;">
+      <span class="badge badge-terracotta" style="margin-bottom: 8px;">Multi-Modal Transit Comparison</span>
+      <h1>Compare Travel Options & Fares</h1>
+      <p>Compare Walking, Auto-Rickshaw, App Taxi (Uber/Ola), Metro, and Local Buses for your exact group size with transparent fare formulas.</p>
+    </div>
+
+    <!-- Quick Leg Selector Form -->
+    <div class="card" style="margin-bottom: 32px; padding: 24px;">
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Destination Hub</label>
+          <select id="transportHubSelect" class="form-select" onchange="onTransportHubChange(this.value)">
+            <option value="jaipur" selected>🏰 Jaipur (Rajasthan)</option>
+            <option value="manali">🌲 Manali (Himachal Pradesh)</option>
+            <option value="mumbai">🌊 Mumbai (Maharashtra)</option>
+            <option value="goa">🏖️ Goa (Coastal)</option>
+            <option value="varanasi">🪔 Varanasi (Uttar Pradesh)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Origin Location</label>
+          <select id="originSelect" class="form-select">
+            <option value="station" selected>Jaipur Railway Station (Junction)</option>
+            <option value="hawa-mahal">Hawa Mahal (Pink City)</option>
+            <option value="amber-fort">Amber Fort & Palace</option>
+            <option value="city-palace">City Palace Complex</option>
+            <option value="zostel">Zostel Jaipur (Subhash Chowk)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Destination Location</label>
+          <select id="destSelect" class="form-select">
+            <option value="amber-fort" selected>Amber Fort & Palace</option>
+            <option value="hawa-mahal">Hawa Mahal (Palace of Winds)</option>
+            <option value="nahargarh-fort">Nahargarh Fort (Sunset Point)</option>
+            <option value="bapu-bazar">Bapu & Johari Bazaars</option>
+            <option value="albert-hall">Albert Hall Museum</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Number of Passengers</label>
+          <input type="number" id="passengerCountInput" class="form-input" min="1" max="10" value="4">
+        </div>
+        <div class="form-group" style="display: flex; align-items: flex-end;">
+          <button id="compareBtn" class="btn btn-primary" style="width: 100%;">Compare Fares &rarr;</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Comparison Table / Cards Container -->
+    <div class="card" style="overflow-x: auto; padding: 0;">
+      <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.92rem;">
+        <thead>
+          <tr style="background-color: var(--bg-card-subtle); border-bottom: 2px solid var(--border-vintage);">
+            <th style="padding: 16px 20px;">Transport Mode</th>
+            <th style="padding: 16px;">Total Fare</th>
+            <th style="padding: 16px;">Cost / Person</th>
+            <th style="padding: 16px;">Travel Time</th>
+            <th style="padding: 16px;">Distance</th>
+            <th style="padding: 16px;">Availability & Booking</th>
+            <th style="padding: 16px 20px;">Data Source</th>
+          </tr>
+        </thead>
+        <tbody id="transportTableBody">
+          <!-- Dynamically populated rows -->
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Transparent Estimation Notice -->
+    <div class="alert-box alert-box-warning" style="margin-top: 24px;">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      <div>
+        <strong>Transparent Pricing Policy:</strong> Auto-rickshaw and cab fares represent authorized regional tariffs and aggregator base estimates for 4 passengers. Always insist on the electronic meter or pre-negotiate with auto drivers before boarding. Metro ticket rates represent verified JMRC Pink Line card tariffs.
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="{{ url_for('static', filename='js/transport.js') }}"></script>
+{% endblock %}

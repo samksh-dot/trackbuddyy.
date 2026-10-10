@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}TrackBuddy — Explore More. Spend Smarter. Travel Together.{% endblock %}</title>
+  
+  <!-- Google Fonts: Playfair Display (Serif) & Inter (Sans) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,700;0,800;1,600&display=swap" rel="stylesheet">
+  
+  <!-- Leaflet CSS for Interactive OpenStreetMap -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+  
+  <!-- TrackBuddy Vintage Stylesheets -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/components.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/responsive.css') }}">
+  
+  {% block extra_head %}{% endblock %}
+</head>
+<body>
+  <!-- Navigation Header -->
+  <header class="header-nav">
+    <div class="container nav-container">
+      <a href="/" class="brand-logo">
+        <svg viewBox="0 0 24 24">
+          <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+        </svg>
+        TrackBuddy
+      </a>
+      
+      <nav>
+        <ul class="nav-links">
+          <li><a href="/planner">Plan Trip</a></li>
+          <li><a href="/itinerary">Itinerary & Map</a></li>
+          <li><a href="/transport">Transport</a></li>
+          <li><a href="/hotels">Hotels</a></li>
+          <li><a href="/discounts">Student Concessions</a></li>
+          <li><a href="/weather">Weather</a></li>
+          <li><a href="/expenses">Expense Split</a></li>
+          <li><a href="/assistant">AI Assistant</a></li>
+          <li><a href="/saved-trips">Saved Trips</a></li>
+        </ul>
+      </nav>
+      
+      <div>
+        <a href="/planner" class="btn btn-primary btn-sm">Start Plan</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Block -->
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- Vintage Heritage Footer -->
+  <footer class="vintage-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="brand-logo" style="margin-bottom: 12px;">TrackBuddy</div>
+          <p style="margin-bottom: 16px;">
+            Explore More. Spend Smarter. Travel Together.<br>
+            Smart, crowd-aware travel itineraries, transparent expense splitting, verified student concessions, and authentic local transit comparisons for travelers across India.
+          </p>
+          <span class="badge badge-verified">Vintage Heritage Edition</span>
+        </div>
+        <div>
+          <h4 style="margin-bottom: 12px;">Planning Hub</h4>
+          <p><a href="/planner">Create Itinerary</a></p>
+          <p><a href="/itinerary">Multi-Stop Route Map</a></p>
+          <p><a href="/transport">Transit Comparison</a></p>
+          <p><a href="/weather">Weather Dashboard</a></p>
+        </div>
+        <div>
+          <h4 style="margin-bottom: 12px;">Accommodations & Perks</h4>
+          <p><a href="/hotels">Affordable Stays & Hostels</a></p>
+          <p><a href="/discounts">Student Concession Finder</a></p>
+          <p><a href="/expenses">Group Expense Splitter</a></p>
+          <p><a href="/assistant">Local AI Companion</a></p>
+        </div>
+        <div>
+          <h4 style="margin-bottom: 12px;">Integrity & Sources</h4>
+          <p style="font-size: 0.88rem; color: var(--ink-muted);">
+            • OpenStreetMap & OSRM Routing<br>
+            • Open-Meteo Weather API<br>
+            • ASI & Rajasthan Tourism Fare Data<br>
+            • Transparent Demo vs Live Indicators
+          </p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div>&copy; 2026 TrackBuddy. Handcrafted for explorers and students.</div>
+        <div>Offline-first architecture with Ollama & Gemma optional AI support.</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Notification Toast Container -->
+  <div id="toastNotification" class="toast-notice"></div>
+
+  <!-- Leaflet Map JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <!-- Global App JS -->
+  <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+  {% block extra_scripts %}{% endblock %}
+</body>
+</html>

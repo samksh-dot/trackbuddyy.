@@ -1,0 +1,55 @@
+/* ==========================================================================
+   TrackBuddy - Responsive Media Queries
+   Mobile-first adaptations, flexible navigation toggle, responsive grids
+   ========================================================================== */
+
+@media (max-width: 992px) {
+  .grid-2 {
+    grid-template-columns: 1fr;
+  }
+  
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+
+  .nav-links {
+    gap: 12px;
+  }
+  
+  .nav-links a {
+    font-size: 0.85rem;
+    padding: 4px 6px;
+  }
+}
+
+@media (max-width: 768px) {
+  .nav-container {
+    flex-direction: column;
+    height: auto;
+    padding: 12px 0;
+    gap: 12px;
+  }
+
+  .nav-links {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  h1 { font-size: 1.95rem; }
+  h2 { font-size: 1.5rem; }
+  
+  .footer-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .footer-bottom {
+    flex-direction: column;
+    gap: 10px;
+    text-align: center;
+  }
+  
+  .map-frame {
+    height: 340px;
+  }
+}

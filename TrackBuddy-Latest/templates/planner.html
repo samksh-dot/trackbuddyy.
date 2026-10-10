@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+
+{% block title %}Smart Trip Planner — TrackBuddy{% endblock %}
+
+{% block content %}
+<section style="padding: 40px 0 60px;">
+  <div class="container" style="max-width: 900px;">
+    <div style="margin-bottom: 30px;">
+      <span class="badge badge-terracotta" style="margin-bottom: 8px;">Step 1: Expedition Setup</span>
+      <h1>Craft Your Smart Itinerary</h1>
+      <p>Configure destination, group numbers, budget, student perks, and travel tempo for an optimized travel plan.</p>
+    </div>
+
+    <div class="card" style="padding: 32px;">
+      <form id="tripPlannerForm">
+        <!-- Destination & Starting Point -->
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Destination Region & Aesthetic</label>
+            <select id="destinationSelect" class="form-select" onchange="onPlannerDestinationChange(this.value)">
+              <option value="jaipur" selected>🏰 Jaipur, Rajasthan (Royal Sandstone)</option>
+              <option value="manali">🌲 Manali, Himachal (Alpine Greenery & Pines)</option>
+              <option value="mumbai">🌊 Mumbai (Coastal Marine & Skyline)</option>
+              <option value="goa">🏖️ Goa (Tropical Beach & Palms)</option>
+              <option value="varanasi">🪔 Varanasi (Sacred Ghats & Saffron)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Starting Point / Arrival Hub</label>
+            <input type="text" id="startLocationInput" class="form-input" value="Jaipur Junction Railway Station" placeholder="e.g. Railway Station, Airport, or Hotel">
+          </div>
+        </div>
+
+
+        <!-- Dates & Travelers -->
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Start Date</label>
+            <input type="date" id="startDateInput" class="form-input" value="2026-10-15">
+          </div>
+          <div class="form-group">
+            <label class="form-label">End Date</label>
+            <input type="date" id="endDateInput" class="form-input" value="2026-10-16">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Number of Travelers</label>
+            <input type="number" id="travelersInput" class="form-input" min="1" max="20" value="4">
+          </div>
+        </div>
+
+        <!-- Budget & Preference -->
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Total Group Budget (₹ INR)</label>
+            <input type="number" id="budgetInput" class="form-input" step="100" value="6000">
+            <small style="color: var(--ink-muted); font-size: 0.8rem;">Est. ₹1,500 per person for 4 travelers</small>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Optimization Tempo</label>
+            <select id="preferenceSelect" class="form-select">
+              <option value="balanced" selected>Balanced (Optimal time & cost)</option>
+              <option value="cheapest">Cheapest (Prioritize student fares & walking)</option>
+              <option value="fastest">Fastest (Direct cabs & express routes)</option>
+              <option value="crowd-avoiding">Crowd-Avoiding (Off-peak timings & quiet gems)</option>
+              <option value="comfortable">Comfortable (Relaxed pace, minimal walking)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Student Status Toggle -->
+        <div class="form-group" style="background: var(--bg-card-subtle); padding: 16px 20px; border-radius: var(--radius-sm); border-left: 4px solid var(--sage-accent);">
+          <label style="display: flex; align-items: center; gap: 12px; cursor: pointer;">
+            <input type="checkbox" id="studentCheckbox" checked style="width: 18px; height: 18px; accent-color: var(--sage-accent);">
+            <div>
+              <strong style="color: var(--ink-primary); font-size: 0.96rem;">Enable Student Concession Mode</strong>
+              <div style="font-size: 0.84rem; color: var(--ink-secondary);">
+                Applies verified student discounts on Rajasthan state monuments (up to 75% off ticket counters with valid ID) and hostel dorm perks.
+              </div>
+            </div>
+          </label>
+        </div>
+
+        <!-- Interests Selection -->
+        <div class="form-group">
+          <label class="form-label">Travel Interests</label>
+          <div class="chips-group">
+            <label class="chip-label">
+              <input type="checkbox" name="interests" value="historical" checked>
+              <span class="chip-span">🏰 Royal Forts & Heritage</span>
+            </label>
+            <label class="chip-label">
+              <input type="checkbox" name="interests" value="museum" checked>
+              <span class="chip-span">🏺 Museums & Art</span>
+            </label>
+            <label class="chip-label">
+              <input type="checkbox" name="interests" value="shopping" checked>
+              <span class="chip-span">🛍️ Traditional Bazaars</span>
+            </label>
+            <label class="chip-label">
+              <input type="checkbox" name="interests" value="nature">
+              <span class="chip-span">🌿 Lakes & Natural Scenery</span>
+            </label>
+            <label class="chip-label">
+              <input type="checkbox" name="interests" value="adventure">
+              <span class="chip-span">🧗 Hilltop Views & Trekking</span>
+            </label>
+            <label class="chip-label">
+              <input type="checkbox" name="interests" value="food">
+              <span class="chip-span">🍲 Street Food & Dal Baati</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Submit Action -->
+        <div style="margin-top: 32px; display: flex; justify-content: flex-end; gap: 16px;">
+          <button type="button" id="fillJaipurBtn" class="btn btn-secondary">Fill Hackathon Preset</button>
+          <button type="submit" id="generateItineraryBtn" class="btn btn-primary" style="padding: 12px 28px;">
+            Generate Optimized Itinerary &rarr;
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="{{ url_for('static', filename='js/planner.js') }}"></script>
+{% endblock %}

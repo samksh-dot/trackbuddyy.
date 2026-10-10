@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block title %}Affordable Stays & Hostels — TrackBuddy{% endblock %}
+
+{% block content %}
+<section style="padding: 40px 0 60px;">
+  <div class="container">
+    <div style="margin-bottom: 30px;">
+      <span class="badge badge-terracotta" style="margin-bottom: 8px;">Accommodation Discovery</span>
+      <h1>Affordable Stays & Backpacking Hostels</h1>
+      <p>Discover student-friendly hostels, heritage havelis, and budget stays near Pink City monuments with transparent occupancy indicators.</p>
+    </div>
+
+    <!-- Filters & Sorting Bar -->
+    <div class="card" style="margin-bottom: 32px; padding: 20px;">
+      <div class="form-row" style="align-items: flex-end;">
+        <div class="form-group" style="margin-bottom: 0;">
+          <label class="form-label">Destination City</label>
+          <select id="hotelDestinationFilter" class="form-select">
+            <option value="jaipur" selected>🏰 Jaipur (Rajasthan)</option>
+            <option value="manali">🌲 Manali (Himachal Pradesh)</option>
+            <option value="mumbai">🌊 Mumbai (Maharashtra)</option>
+            <option value="goa">🏖️ Goa (Coastal)</option>
+            <option value="varanasi">🪔 Varanasi (Uttar Pradesh)</option>
+          </select>
+        </div>
+        <div class="form-group" style="margin-bottom: 0;">
+          <label class="form-label">Accommodation Type</label>
+          <select id="hotelTypeFilter" class="form-select">
+            <option value="">All Stays</option>
+            <option value="hostel">Backpacker Hostels (Dorms & Social)</option>
+            <option value="budget_hotel">Budget Boutique Hotels</option>
+            <option value="heritage_haveli">Heritage Havelis</option>
+            <option value="guesthouse">Eco Guesthouses</option>
+          </select>
+        </div>
+
+        <div class="form-group" style="margin-bottom: 0;">
+          <label class="form-label">Max Price / Night</label>
+          <select id="priceFilter" class="form-select">
+            <option value="">Any Budget</option>
+            <option value="800">Under ₹800 (Hostel beds)</option>
+            <option value="1500">Under ₹1,500</option>
+            <option value="2500">Under ₹2,500</option>
+          </select>
+        </div>
+        <div class="form-group" style="margin-bottom: 0;">
+          <label class="form-label">Sort By</label>
+          <select id="sortBySelect" class="form-select">
+            <option value="best_match">Best Value & Rating Match</option>
+            <option value="cheapest">Price: Lowest First</option>
+            <option value="highest_rated">Rating: Highest First</option>
+          </select>
+        </div>
+        <div class="form-group" style="margin-bottom: 0;">
+          <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; padding-bottom: 8px;">
+            <input type="checkbox" id="studentDiscountFilter" style="width: 18px; height: 18px; accent-color: var(--sage-accent);">
+            <span style="font-size: 0.88rem; font-weight: 500;">Student Deals Only</span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hotel Cards Grid -->
+    <div id="hotelsGrid" class="grid-3">
+      <!-- Dynamically populated hotel cards -->
+    </div>
+
+    <!-- Occupancy Transparency Banner -->
+    <div class="alert-box alert-box-warning" style="margin-top: 36px;">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      <div>
+        <strong>Occupancy & Availability Disclosure:</strong> TrackBuddy distinguishes between confirmed provider room counters and statistical historical occupancy models. Public reviews never represent real-time hotel crowd density. Always verify exact live room allocation with the provider link before checking in.
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="{{ url_for('static', filename='js/hotels.js') }}"></script>
+{% endblock %}

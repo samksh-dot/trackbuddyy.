@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+
+{% block title %}Accommodation Details — TrackBuddy{% endblock %}
+
+{% block content %}
+<section style="padding: 40px 0 60px;">
+  <div class="container" style="max-width: 960px;">
+    <div style="margin-bottom: 24px;">
+      <a href="/hotels" style="font-size: 0.9rem; color: var(--ink-secondary); display: inline-flex; align-items: center; gap: 6px;">
+        &larr; Back to Stays Catalog
+      </a>
+    </div>
+
+    <div id="hotelDetailContainer">
+      <div style="text-align: center; padding: 40px; color: var(--ink-muted);">Loading stay details...</div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+const hotelId = "{{ hotel_id }}";
+
+document.addEventListener('DOMContentLoaded', async () => {
+  const container = document.getElementById('hotelDetailContainer');
+  try {
+    const res = await fetch(`/api/hotels/${hotelId}`);
+    if (!res.ok) throw new Error("Hotel not found");
+    const h = await res.json();
+    renderHotelDetail(h);
+  } catch(e) {
+    container.innerHTML = `<div style="color: var(--status-alert); padding: 40px; text-align: center;">Error loading hotel details: ${e.message}</div>`;
+  }
+});
+
+function renderHotelDetail(h) {
+  const container = document.getElementById('hotelDetailContainer');
+
+  const occClass = h.occupancy_status === 'Nearly full' ? 'badge-alert' : 
+                   (h.occupancy_status === 'Moderate occupancy' ? 'badge-caution' : 'badge-verified');
+
+  const amenitiesList = (h.amenities || []).map(a => `
+    <li style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px; font-size: 0.92rem;">
+      <span style="color: var(--sage-accent);">✔</span> ${a}
+    </li>
+  `).join('');
+
+  const reviewsList = (h.reviews || []).map(r => `
+    <div style="padding: 16px; border: 1px solid var(--border-vintage); border-radius: var(--radius-sm); margin-bottom: 12px; background: var(--bg-card-subtle);">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+        <strong style="color: var(--ink-primary);">${r.author_name}</strong>
+        <span style="color: var(--sage-dark); font-weight: 600;">★ ${r.rating.toFixed(1)}</span>
+      </div>
+      <p style="font-size: 0.88rem; margin-bottom: 8px; color: var(--ink-secondary);">"${r.excerpt}"</p>
+      <div style="font-size: 0.78rem; color: var(--ink-muted); display: flex; justify-content: space-between;">
+        <span>Source: ${r.source_attribution}</span>
+        <span>Date: ${r.review_date}</span>
+      </div>
+    </div>
+  `).join('');
+
+  container.innerHTML = `
+    <div class="card" style="padding: 0; overflow: hidden; margin-bottom: 28px;">
+      <div style="height: 340px; position: relative;">
+        <img src="${h.image_url}" alt="${h.name}" style="width: 100%; height: 100%; object-fit: cover;">
+        <span class="badge ${occClass}" style="position: absolute; top: 16px; right: 16px; font-size: 0.85rem; padding: 6px 14px;">
+          ${h.occupancy_status}
+        </span>
+      </div>
+
+      <div style="padding: 32px;">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 16px; margin-bottom: 16px;">
+          <div>
+            <h1 style="font-size: 2rem; margin-bottom: 6px;">${h.name}</h1>
+            <p style="font-size: 0.95rem; color: var(--ink-muted);">📍 ${h.address}</p>
+          </div>
+          <div style="text-align: right;">
+            <div style="font-size: 2.2rem; font-family: var(--font-serif); font-weight: 700; color: var(--terracotta-primary);">
+              ₹${h.price_per_night}
+            </div>
+            <span style="font-size: 0.82rem; color: var(--ink-muted);">per room/bed per night</span>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 16px; margin-bottom: 24px;">
+          <span class="badge badge-verified">★ ${h.rating.toFixed(1)} Rating (${h.review_count} Reviews)</span>
+          <span class="badge badge-terracotta">${h.type.replace('_', ' ').toUpperCase()}</span>
+          ${h.student_discount_available ? '<span class="badge badge-verified">Student Concession Eligible</span>' : ''}
+        </div>
+
+        <p style="font-size: 1.05rem; line-height: 1.7; margin-bottom: 28px; color: var(--ink-secondary);">
+          ${h.review_summary}
+        </p>
+
+        <!-- Occupancy Breakdown Card -->
+        <div class="card" style="background: var(--bg-card-subtle); border-left: 4px solid var(--sandstone-gold); margin-bottom: 28px; padding: 18px 24px;">
+          <h4 style="margin-bottom: 6px;">Reported Availability & Occupancy Status</h4>
+          <p style="font-size: 0.9rem; margin-bottom: 8px;">
+            <strong>Status:</strong> ${h.occupancy_status} (${h.occupancy_source})
+          </p>
+          <small style="color: var(--ink-muted); font-size: 0.82rem;">
+            Notice: Real-time hotel bed occupancy is retrieved from provider test stubs. For confirmed check-ins, please book directly with official property portals.
+          </small>
+        </div>
+
+        <!-- Amenities -->
+        <h3 style="margin-bottom: 14px;">Amenities & Comforts</h3>
+        <ul style="list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 8px; margin-bottom: 32px;">
+          ${amenitiesList}
+        </ul>
+
+        <!-- Guest Reviews -->
+        <h3 style="margin-bottom: 14px;">Attributed Guest Feedback</h3>
+        <div style="margin-bottom: 32px;">
+          ${reviewsList.length > 0 ? reviewsList : '<p style="color: var(--ink-muted);">No reviews recorded yet.</p>'}
+        </div>
+
+        <!-- External Link -->
+        <div style="display: flex; justify-content: flex-end;">
+          <a href="${h.booking_url}" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="padding: 12px 28px;">
+            Visit Official Property Site &rarr;
+          </a>
+        </div>
+      </div>
+    </div>
+  `;
+}
+</script>
+{% endblock %}
